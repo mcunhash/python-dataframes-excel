@@ -1,0 +1,33 @@
+#IMPORTANDO BIBLIOTECAS
+
+from datetime import date
+import pandas as pd
+import openpyxl
+import datetime as dt
+
+#VARIAVEIS 
+date_today = date.today()
+AnoMes = date_today.strftime('%Y-%m')
+user = input("Digite o nome do seu usuario no windows: ")
+arquivo = input("Digite o nome do arquivo: ")
+
+#ALTERANDO O XLSB PARA XLSX
+import win32com.client
+excel = win32com.client.Dispatch("Excel.Application")
+excel.DisplayAlerts = False
+excel.Visible=False
+doc = excel.Workbooks.Open('C:\\Users\\'+user+'\\Downloads\\'+arquivo+'')
+doc.SaveAs(Filename='C:\\Users\\'+user+'\\Downloads\\'+AnoMes+'-Base.xlsx',FileFormat=51)
+doc.Close()
+excel.Quit()
+
+#CARREGAMENTO DO ARQUIVO EM XLSX E REMOÇÃO DE ABAS ADICIONAIS
+
+wb = openpyxl.load_workbook('C:\\Users\\'+user+'\\Downloads\\'+AnoMes+'-Base.xlsx')
+wb.remove(wb['teste2'])
+wb.remove(wb['teste3'])
+wb.remove(wb['teste4'])
+wb.remove(wb['teste5'])
+wb.remove(wb['teste6'])
+wb.remove(wb['teste7'])
+wb.save('C:\\Users\\'+user+'\\Downloads\\'+AnoMes+'-Base.xlsx')
